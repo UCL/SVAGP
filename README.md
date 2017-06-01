@@ -1,4 +1,4 @@
-# PP-SVGPFA
+# SVGPFA
 
 Sparse Variational Additive Gaussian Process
 
