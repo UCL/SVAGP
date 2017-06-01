@@ -124,8 +124,8 @@ class Stationary(Kern):
           columns of X are used.
         """
         Kern.__init__(self, input_dim, active_dims)
-        self.lengthscales = tf.get_variable("lengthscales", [1],  initializer=tf.constant_initializer(lengthscales))
-        self.variance = tf.get_variable("variance", [input_dim],  initializer=tf.constant_initializer(variance))
+        self.lengthscales = tf.get_variable("lengthscales", [input_dim],  initializer=tf.constant_initializer(lengthscales))
+        self.variance = tf.get_variable("variance", [1],  initializer=tf.constant_initializer(variance))
 
 
     def square_dist(self, X, X2):
