@@ -91,7 +91,6 @@ class ChainedGPs(object):
         return tf.transpose(tf.gather(tf.transpose(Xnew),self.f_indices[c]))
 
     def build_predict_fs(self, Xnew):
-
         mus, vars = [],[]
         for c in range(self.C):
             x = self.get_covariate(Xnew,c)
@@ -103,17 +102,28 @@ class ChainedGPs(object):
 
 
 class SVAGP(ChainedGPs):
+    """
+    Sparse Variational Additive Gaussian Process
+    
+    Key reference is 
+    ::
+      @inproceedings{adam2016scalable,
+        title={Scalable transformed additive signal decomposition by non-conjugate Gaussian process inference},
+        author={Adam, Vincent and Hensman, James and Sahani, Maneesh},
+        booktitle={Machine Learning for Signal Processing (MLSP), 2016 IEEE 26th International Workshop on},
+        pages={1--6},
+        year={2016},
+        organization={IEEE}
+      }    
+    """
 
     def build_likelihood(self):
         """
         This gives a variational bound on the model likelihood.
         """
-
         cost = -self.build_prior_KL()
         fmean, fvar = self.build_predict_additive_predictor(self.X)
-
         var_exp = self.likelihood.variational_expectations(fmean, fvar, self.Y)
-
         cost += tf.reduce_sum(var_exp)
         return cost
 
